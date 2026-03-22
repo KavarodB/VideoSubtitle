@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Transcription & Editor</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="container card">
+      <h1>🎬 Video Transcription & Editor</h1>
+      <p class="subtitle">
+        Upload a video file for transcription or view an existing transcript by
+        ID.
+      </p>
+
+      <div id="uploadForm">
+        <div id="uploadFileForm">
+          <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">📹</div>
+            <div class="upload-text">Drag & drop your video here</div>
+            <div class="upload-hint">
+              or click to select (MP4, WebM, AVI, etc.)
+            </div>
+            <input type="file" id="fileInput" accept="video/*" />
+          </div>
+          <div class="file-name" id="fileName"></div>
+
+          <div class="button-group">
+            <button class="btn-upload" id="uploadBtn" type="button">
+              Upload & Transcribe
+            </button>
+            <button class="btn-clear" id="clearBtn" type="button">Clear</button>
+          </div>
+          <div class="status" id="status"></div>
+        </div>
+      </div>
+
+      <div class="result-section" id="resultSection" style="display: none">
+        <div id="videoWrap"></div>
+
+        <div class="segments-title">📝 Full Transcript</div>
+        <div class="transcript-box" id="transcript"></div>
+
+        <div class="segments-title">⏱️ Timestamped Segments</div>
+        <div id="segments"></div>
+
+        <!-- Customization Panel -->
+        <div class="customization-panel">
+          <div class="panel-title">⚙️ Subtitle Customization</div>
+
+          <!-- Properties Container with Flex Layout -->
+          <div class="properties-container">
+            <!-- Left Column -->
+            <div class="properties-left">
+              <!-- Font Selection -->
+              <div class="property-card">
+                <label for="fontSelect">🔤 Font</label>
+                <select id="fontSelect">
+                  <option value="Arial">Arial</option>
+                  <option value="Verdana">Verdana</option>
+                  <option value="Georgia">Georgia</option>
+                  <option value="Times New Roman">Times New Roman</option>
+                  <option value="Courier New">Courier New</option>
+                  <option value="Comic Sans MS">Comic Sans MS</option>
+                  <option value="Trebuchet MS">Trebuchet MS</option>
+                  <option value="Impact">Impact</option>
+                  <option value="Palatino Linotype">Palatino Linotype</option>
+                </select>
+              </div>
+
+              <!-- Font Size -->
+              <div class="property-card">
+                <label>📏 Size</label>
+                <div class="slider-container">
+                  <input
+                    type="range"
+                    id="fontSizeSlider"
+                    min="12"
+                    max="60"
+                    value="24"
+                  />
+                  <span class="slider-value" id="fontSizeValue">24</span>
+                </div>
+              </div>
+
+              <!-- Text Color -->
+              <div class="property-card">
+                <label>🎨 Color</label>
+                <div class="color-picker-inline">
+                  <input type="color" id="colorPicker" value="#ffffff" />
+                  <span id="colorValue">#ffffff</span>
+                </div>
+              </div>
+
+              <!-- Position -->
+              <div class="property-card">
+                <label>📍 Position</label>
+                <div class="position-buttons-compact">
+                  <button
+                    class="position-btn-compact"
+                    data-position="top"
+                    title="Top"
+                  >
+                    ⬆️
+                  </button>
+                  <button
+                    class="position-btn-compact"
+                    data-position="middle"
+                    title="Middle"
+                  >
+                    ↔️
+                  </button>
+                  <button
+                    class="position-btn-compact"
+                    data-position="bottom"
+                    title="Bottom"
+                  >
+                    ⬇️
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="properties-right">
+              <!-- Text Appearance -->
+              <div class="property-card">
+                <label for="cadenceSelect">✨ Animation</label>
+                <select id="cadenceSelect">
+                  <option value="instant">Instant</option>
+                  <option value="fade-in">Fade In</option>
+                  <option value="pop">Pop In</option>
+                  <option value="slide-up">Slide Up</option>
+                  <option value="slide-down">Slide Down</option>
+                  <option value="typewriter">Typewriter</option>
+                </select>
+              </div>
+
+              <!-- Duration -->
+              <div class="property-card">
+                <label>⏱️ Duration</label>
+                <div class="slider-container">
+                  <input
+                    type="range"
+                    id="durationSlider"
+                    min="0.5"
+                    max="10"
+                    step="0.1"
+                    value="2"
+                  />
+                  <span class="slider-value" id="durationValue">2</span>
+                </div>
+              </div>
+
+              <!-- Animation Speed -->
+              <div class="property-card">
+                <label>⚡ Speed</label>
+                <div class="slider-container">
+                  <input
+                    type="range"
+                    id="speedSlider"
+                    min="0.5"
+                    max="2"
+                    step="0.1"
+                    value="1"
+                  />
+                  <span class="slider-value" id="speedValue">1</span>
+                </div>
+              </div>
+
+              <!-- Augmentation -->
+              <div class="property-card">
+                <label class="checkbox-label-compact">
+                  <input
+                    type="checkbox"
+                    id="augmentationCheckbox"
+                    class="checkbox-input"
+                  />
+                  <span>Icon Augmentation</span>
+                  <span
+                    class="tooltip-icon-compact"
+                    title="Add decorative icons"
+                    >?</span
+                  >
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Preview -->
+          <div class="preview-box" id="livePreview">
+            <div class="preview-label">Live Preview:</div>
+            <div id="previewSubtitle" class="subtitle-preview">
+              Example Subtitle Text
+            </div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button id="saveBtn" class="ghost" type="button">
+            Save & Burn Subtitles
+          </button>
+          <a id="assLink" class="link" href="#" target="_blank">Download ASS</a>
+        </div>
+
+        <div id="statusBox"></div>
+      </div>
+    </div>
+    <script src="/static/script.js"></script>
+  </body>
+</html>

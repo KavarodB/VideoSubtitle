@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+python-multipart
+imageio-ffmpeg
+ffmpeg-python
+openai>=1.6.0
+python-dotenv
